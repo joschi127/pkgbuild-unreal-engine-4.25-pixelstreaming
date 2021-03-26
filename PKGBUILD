@@ -33,7 +33,7 @@ sha256sums=('15e9f9d8dc8bd8513f6a5eca990e2aab21fd38724ad57d213b06a6610a951d58'
             'e891f07bf7294cd5fde8eb6de92e6d47ed004847ea8afd7c944e9b9b2bacaff4'
             '8042bed3405298b5a4357068dd6b22a5a8a0f19def64b4f61ed0362fb46cb00d'
             '9e403b939a0601c6271da17af9497742cacd74e3cde41562c9f288dfbdcbdbfe'
-            'a0a0d3f065e27f4d31e21e5f9d15cb4d8f59c50245a45469878fc1fe8bdyyc78e6'
+            'a0a0d3f065e27f4d31e21e5f9d15cb4d8f59c50245a45469878fc1fe8bdc78e6'
             'e4153fce86147dec7bf7dade1fc9aeac3e8f9a68d75ae92f60a6f070ff6378a4')
 options=(!strip staticlibs) # Package is 3 Gib smaller with "strip" but it takes a long time and generates many warnings
 
