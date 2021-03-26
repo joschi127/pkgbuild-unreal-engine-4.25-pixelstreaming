@@ -12,7 +12,7 @@ pkgdesc='A 3D game engine by Epic Games which can be used non-commercially for f
 arch=(x86_64)
 url=https://www.unrealengine.com/
 makedepends=(mono dos2unix git openssh msbuild)
-depends=(icu sdl2 python lld xdg-user-dirs cuda cuda-tools)
+depends=(icu sdl2 python lld xdg-user-dirs cuda cuda-tools cudnn opencl-nvidia)
 optdepends=('qt5-base: qmake build system for projects'
             'cmake: build system for projects'
             'qtcreator: IDE for projects'
