@@ -14,3 +14,7 @@ Build with:
 
         sudo ln -s /opt/cuda /usr/local/
         makepkg [ -C ]
+
+Install with:
+
+        sudo pacman -U unreal-engine-4.25-pixelstreaming-4.25-4-x86_64.pkg.tar.zst
