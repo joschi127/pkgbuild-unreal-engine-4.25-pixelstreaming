@@ -3,7 +3,9 @@
 # Maintainer: Shatur95 <genaloner@gmail.com>
 
 # The source is about 200 MiB, with an extra ~11 GiB of dependencies downloaded in Setup.sh, and may take several hours to compile.
-# Build with: makepkg [ -C ]
+# Build with:
+#   sudo ln -s /opt/cuda /usr/local/
+#   makepkg [ -C ]
 pkgname=unreal-engine-4.25-pixelstreaming
 pkgver=4.25
 pkgrel=4

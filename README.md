@@ -12,4 +12,5 @@ Builds engine with pixelstreaming patches for linux from:
 
 Build with:
 
+        sudo ln -s /opt/cuda /usr/local/
         makepkg [ -C ]
