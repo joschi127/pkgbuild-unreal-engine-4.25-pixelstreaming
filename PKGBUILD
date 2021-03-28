@@ -111,7 +111,8 @@ build() {
 
 package() {
   # Install dir
-  dir="opt/$pkgname"
+  #dir="opt/$pkgname"
+  dir="opt/unreal-engine"
 
   # Desktop entry
   if [ "$dir" != "opt/$pkgname" ] # Set new path if dir changed
