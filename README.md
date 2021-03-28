@@ -18,3 +18,7 @@ Build with:
 Install with:
 
         sudo pacman -U unreal-engine-4.25-pixelstreaming-4.25-4-x86_64.pkg.tar.zst
+
+Fix permissions: (to avoid errors when building packages, etc.)
+
+        sudo chown -R $(whoami):$(whoami) /opt/unreal-engine
