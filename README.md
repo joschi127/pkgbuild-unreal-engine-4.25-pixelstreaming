@@ -22,3 +22,7 @@ Install with:
 Fix permissions: (to avoid errors when building packages, etc.)
 
         sudo chown -R $(whoami):$(whoami) /opt/unreal-engine
+
+Fix / add desktop shortcut:
+
+        cp -vf /opt/unreal-engine/Engine/Source/Programs/UnrealVersionSelector/Private/Linux/Resources/*.desktop ~/.local/share/applications/
