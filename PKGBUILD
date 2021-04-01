@@ -25,23 +25,25 @@ provides=("unreal-engine=$pkgver-$pkgrel")
 conflicts=(unreal-engine)
 
 license=(custom:UnrealEngine)
-source=(com.unrealengine.UE4Editor.desktop
-        use-arch-mono.patch
-	clang_11.patch
-	PackageWithSystemCompiler.patch
-	ccache.patch
-	compile_in_editor.patch)
+source=('com.unrealengine.UE4Editor.desktop'
+        'use-arch-mono.patch'
+        'clang_11.patch'
+        'PackageWithSystemCompiler.patch'
+        'ccache.patch'
+        'compile_in_editor.patch'
+        '430667-13636743.patch')
 sha256sums=('15e9f9d8dc8bd8513f6a5eca990e2aab21fd38724ad57d213b06a6610a951d58'
             'e891f07bf7294cd5fde8eb6de92e6d47ed004847ea8afd7c944e9b9b2bacaff4'
             '8042bed3405298b5a4357068dd6b22a5a8a0f19def64b4f61ed0362fb46cb00d'
             '9e403b939a0601c6271da17af9497742cacd74e3cde41562c9f288dfbdcbdbfe'
             'a0a0d3f065e27f4d31e21e5f9d15cb4d8f59c50245a45469878fc1fe8bdc78e6'
-            'e4153fce86147dec7bf7dade1fc9aeac3e8f9a68d75ae92f60a6f070ff6378a4')
+            'e4153fce86147dec7bf7dade1fc9aeac3e8f9a68d75ae92f60a6f070ff6378a4'
+            'SKIP')
 options=(!strip staticlibs) # Package is 3 Gib smaller with "strip" but it takes a long time and generates many warnings
 
 # Set options to anything that is not null to enable them.
-_system_compiler= 	# for the system compiler you'll need to set LINUX_MULTIARCH_ROOT 
-		   	# as an environment to /usr/sbin compile projects after building.
+_system_compiler=         # for the system compiler you'll need to set LINUX_MULTIARCH_ROOT 
+                           # as an environment to /usr/sbin compile projects after building.
 _ccache_support=       # Patches for ccache. More optimizations might be needed.
 
 prepare() {
@@ -79,6 +81,9 @@ prepare() {
   then
     patch -p1 -i "$srcdir/ccache.patch"
   fi
+  
+  # Patch for crash: Malloc Size=65538 LargeMemoryPoolOffset=65554 / VulkanUtil.cpp] [Line: 770] / Failed with Validation error. Try running with r.Vulkan.EnableValidation=1 to get information from the driver 
+  patch --strip=4 -i "$srcdir/430667-13636743.patch"
 
   # Qt Creator source code access
   if [ ! -d Engine/Plugins/Developer/QtCreatorSourceCodeAccess ]
