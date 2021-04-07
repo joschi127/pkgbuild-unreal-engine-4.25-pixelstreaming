@@ -9,7 +9,8 @@
 pkgname=unreal-engine-4.25-pixelstreaming
 pkgver=4.25
 pkgrel=4
-branchname=4.25-pixelstreaming
+#branchname=4.25-pixelstreaming
+branchname=vulkan-memory-leak-fix
 pkgdesc='A 3D game engine by Epic Games which can be used non-commercially for free.'
 arch=(x86_64)
 url=https://www.unrealengine.com/
@@ -42,7 +43,7 @@ sha256sums=('15e9f9d8dc8bd8513f6a5eca990e2aab21fd38724ad57d213b06a6610a951d58'
 options=(!strip staticlibs) # Package is 3 Gib smaller with "strip" but it takes a long time and generates many warnings
 
 # Set options to anything that is not null to enable them.
-_system_compiler=         # for the system compiler you'll need to set LINUX_MULTIARCH_ROOT 
+_system_compiler=         # for the system compiler you'll need to set LINUX_MULTIARCH_ROOT
                            # as an environment to /usr/sbin compile projects after building.
 _ccache_support=       # Patches for ccache. More optimizations might be needed.
 
@@ -61,13 +62,15 @@ prepare() {
     cd $pkgname
   else
     cd $pkgname
-    rm -f .git/index.lock
+    #rm -f .git/index.lock
     #git fetch --depth=1 origin tag $branchname
+    git remote remove origin
+    git remote add origin git@github.com:ImmortalEmperor/UnrealEngine
     git remote update
     git reset --hard origin/$branchname
   fi
 
-  patch Engine/Build/BatchFiles/Linux/SetupMono.sh $srcdir/use-arch-mono.patch # Use system mono
+  #patch Engine/Build/BatchFiles/Linux/SetupMono.sh $srcdir/use-arch-mono.patch # Use system mono
   generateProjectArgs="-makefile"
   if [ -n "$_system_compiler" ]
   then
@@ -81,9 +84,9 @@ prepare() {
   then
     patch -p1 -i "$srcdir/ccache.patch"
   fi
-  
-  # Patch for crash: Malloc Size=65538 LargeMemoryPoolOffset=65554 / VulkanUtil.cpp] [Line: 770] / Failed with Validation error. Try running with r.Vulkan.EnableValidation=1 to get information from the driver 
-  patch --strip=4 -i "$srcdir/430667-13636743.patch"
+
+  # Patch for crash: Malloc Size=65538 LargeMemoryPoolOffset=65554 / VulkanUtil.cpp] [Line: 770] / Failed with Validation error. Try running with r.Vulkan.EnableValidation=1 to get information from the driver
+  #patch --strip=4 -i "$srcdir/430667-13636743.patch"
 
   # Qt Creator source code access
   if [ ! -d Engine/Plugins/Developer/QtCreatorSourceCodeAccess ]
@@ -98,7 +101,7 @@ prepare() {
 
 build() {
   cd $pkgname
-  
+
   # Build all targets from the "all" rule separately, because building multiple targets in parallel results in an error (but building one target with multiple threads is possible)
   ARGS=""
   if [ -n "$_system_compiler" ]
@@ -126,15 +129,15 @@ package() {
     sed -i "6c\Exec=/$dir/Engine/Binaries/Linux/UE4Editor %F" com.unrealengine.UE4Editor.desktop
   fi
   install -Dm777 com.unrealengine.UE4Editor.desktop $pkgdir/usr/share/applications/com.unrealengine.UE4Editor.desktop
-  
+
   cd $pkgname
-  
+
   # Icon for Desktop entry
   install -Dm777 Engine/Source/Programs/UnrealVS/Resources/Preview.png $pkgdir/usr/share/pixmaps/ue4editor.png
 
   # License
   install -Dm777 LICENSE.md $pkgdir/usr/share/licenses/UnrealEngine/LICENSE.md
-  
+
   # Engine
   install -dm777 "$pkgdir/$dir/Engine"
   mv Engine/Binaries "$pkgdir/$dir/Engine/Binaries"
@@ -147,10 +150,10 @@ package() {
   mv Engine/Programs "$pkgdir/$dir/Engine/Programs"
   mv Engine/Shaders "$pkgdir/$dir/Engine/Shaders"
   mv Engine/Source "$pkgdir/$dir/Engine/Source"
-  
+
   # Required folders
   # install -d "$pkgdir/$dir/Engine/DerivedDataCache"
-  
+
   # Content
   mv FeaturePacks "$pkgdir/$dir/FeaturePacks"
   mv Samples "$pkgdir/$dir/Samples"
