@@ -68,6 +68,9 @@ prepare() {
     git remote add origin git@github.com:ImmortalEmperor/UnrealEngine
     git remote update
     git reset --hard origin/$branchname
+    git merge origin/4.25-pixelstreaming-dev || true
+    git checkout --theirs Engine/Plugins/Media/PixelStreaming/Source/PixelStreaming/Private/Codecs/VideoEncoder.cpp
+    git add Engine/Plugins/Media/PixelStreaming/Source/PixelStreaming/Private/Codecs/VideoEncoder.cpp
   fi
 
   #patch Engine/Build/BatchFiles/Linux/SetupMono.sh $srcdir/use-arch-mono.patch # Use system mono
